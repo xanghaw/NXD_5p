@@ -11,15 +11,15 @@
   var hours = calender.getHours();
   var minutes = calender.getMinutes();
   var initial = 50000;
-  var balance = 2000;
-  var txt;
+//  var balance = 0;
+//  var txt;
   var rest;
-  var person;
+//  var person;
+
 
 function mainpage(){
 
-  if (date<=1){
-    var balance = initial;
+  if (date === 1){
     var txtmain1 = "오늘은  " + month + "/" + date + "    현재 잔고는 " + initial + "원 입니다. ";
     document.getElementById("main").innerHTML = txtmain1;
 
@@ -43,18 +43,25 @@ function mainpage(){
 <p id="demo"></p>
 <script>
 function funcJ() {
-  person = prompt("Please enter your name:", "Harry Potter");
-  person = Number(person);
+var  person = prompt("Please enter your name:", "Harry Potter");
+person = Number(person);
   if (person == null || person == "") {
-    txt = "User cancelled the prompt.";
-  } else {
-    rest = rest - person ;
-    txt = "사용후 잔고는 " + rest + "원 입니다. ";
+  var  txt = "User cancelled the prompt.";
   }
-
-  document.getElementById("demo").innerHTML = txt;
-
-}
+   else {
+        if (date === 1){
+          rest = initial - person;
+          var txt = "사용후 잔고는 " + rest + "원 입니다. ";
+          initial = rest
+        }
+        else{
+          rest = initial - person ;
+          var  txt = "사용후 잔고는 " + rest + "원 입니다. ";
+          initial = rest
+            }
+                    document.getElementById("demo").innerHTML = txt;
+                  }
+                }
 </script>
 
 <button onclick="mainpage()">mainpage</button>
