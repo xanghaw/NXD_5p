@@ -1,70 +1,27 @@
 <!DOCTYPE html>
 <html>
-<body>
-
-<h2>현재잔액</h2>
-<p id="main"></p>
+<head>
 <script>
-  var calender = new Date();
-  var month = calender.getMonth()+1;
-  var date = calender.getDate();
-  var hours = calender.getHours();
-  var minutes = calender.getMinutes();
-  var initial = 50000;
-//  var balance = 0;
-//  var txt;
-  var rest;
-//  var person;
-
-
-function mainpage(){
-
-  if (date === 1){
-    var txtmain1 = "오늘은  " + month + "/" + date + "    현재 잔고는 " + initial + "원 입니다. ";
-    document.getElementById("main").innerHTML = txtmain1;
-
+function clickCounter() {
+  if (typeof(Storage) !== "undefined") {
+    if (localStorage.clickcount) {
+      localStorage.clickcount = Number(localStorage.clickcount)+1;
+    } else {
+      localStorage.clickcount = 1;
+    }
+    document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
   } else {
-    //var blance = rest;
-    var txtmain = "오늘은  " + month + "/" + date + "    현재 잔고는 " + rest + "원 입니다. ";
-    document.getElementById("main").innerHTML = txtmain;
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
   }
 }
-
-
-
 </script>
+</head>
+<body>
 
-<button onclick="funcJ()">Jimin</button>
-<button onclick="funcJD()">Duckoul</button>
-<button onclick="funcJM()">Minsu</button>
-<button onclick="funcC()">Change</button>
-
-
-<p id="demo"></p>
-<script>
-function funcJ() {
-var  person = prompt("Please enter your name:", "Harry Potter");
-person = Number(person);
-  if (person == null || person == "") {
-  var  txt = "User cancelled the prompt.";
-  }
-   else {
-        if (date === 1){
-          rest = initial - person;
-          var txt = "사용후 잔고는 " + rest + "원 입니다. ";
-          initial = rest
-        }
-        else{
-          rest = initial - person ;
-          var  txt = "사용후 잔고는 " + rest + "원 입니다. ";
-          initial = rest
-            }
-                    document.getElementById("demo").innerHTML = txt;
-                  }
-                }
-</script>
-
-<button onclick="mainpage()">mainpage</button>
+<p><button onclick="clickCounter()" type="button">Click me!</button></p>
+<div id="result"></div>
+<p>Click the button to see the counter increase.</p>
+<p>Close the browser tab (or window), and try again, and the counter will continue to count (is not reset).</p>
 
 </body>
 </html>
