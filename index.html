@@ -1,162 +1,26 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-<title>회원가입</title>
+<script>
+function clickCounter() {
+  if (typeof(Storage) !== "undefined") {
+    if (localStorage.clickcount) {
+      localStorage.clickcount = Number(localStorage.clickcount)+1;
+    } else {
+      localStorage.clickcount = 1;
+    }
+    document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+  } else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+  }
+}
+</script>
 </head>
-<style>
-html {
-     background: url(img/back.PNG) no-repeat center center fixed;
-     -webkit-background-size: cover;
-     -moz-background-size: cover;
-     -o-background-size: cover;
-     background-size: cover;
-}
-div.around {
-   display: table;
-   height: 720px;
-   width: 100%;
-   margin: auto;
-}
-
-div.button {
-   display: table-cell;
-   text-align: center;
-   vertical-align: middle;
-   margin: auto;
-
-}
-
-input.up_input {
-   margin-top:5px;
-   margin-bottom:5px;
-   width: 100%;
-   font-size: 18px;
-}
-
-input.dn_input {
-   margin-top:5px;
-   margin-bottom:5px;
-   padding-top:5px;
-   padding-bottom:5px;
-   width: 100%;
-   font-size: 18px;
-}
-
-
-button {
-   width: 100%;
-}
-</style>
 <body>
-   <script>
-   var id_value;
-   var imfor;
-   function clear(){
-      localStorage.clear();
-   }
-      function save_storage(){
-       var storage = JSON.parse(localStorage.getItem('storage')) || [];
-       for(var key in storage){
-          temp=storage[key].split("-")[0];
-          if(id_value==temp){
-             alert("이미 가입한 아이디입니다");
 
-             return;
-          }
-       }
-         storage.push(imfor);
-        localStorage.setItem('storage', JSON.stringify(storage));
-       alert(storage);
-       alert("가입완료");
-			 
-   }
-    function atrim(str){
-        return str.replace(/\s/g,'');
-   }
-   function blankcheck(el,msg){
-       if(el.value==""){
-        alert(msg+"를(을) 입력해주세요.");
-        el.focus();
-        return true;
-       }
-       if(el.value.length != atrim(el.value).length){
-        alert(msg+"에는 공백을 허용하지 않습니다.");
-        el.focus();
-        return true;
-       }
-   }
-   function save(){
-      if(blankcheck(joinfrm.rg_id,'아이디')) {
-           return;
-       }
-       if(blankcheck(joinfrm.rg_pw,'비밀번호')) {
-           return;
-       }
-       if(blankcheck(joinfrm.rg_pw_chk,'비밀번호확인')) {
-           return;
-       }
-       if(blankcheck(joinfrm.rg_name,'이름')) {
-           return;
-       }
-       if(blankcheck(joinfrm.rg_mail,'이메일')) {
-           return;
-       }
-       if(blankcheck(joinfrm.rg_num,'전화번호')) {
-           return;
-       }
-       if(joinfrm.rg_pw.value!=joinfrm.rg_pw_chk.value){
-          alert("비밀번호가 일치하지 않습니다.")
-          return;
-       }
-       id_value = joinfrm.rg_id.value;
-       var pw_value = joinfrm.rg_pw.value;
-       var name_value = joinfrm.rg_name.value;
-       var mail_value = joinfrm.rg_mail.value;
-       var num_value = joinfrm.rg_num.value;
+<p><button onclick="clickCounter()" type="button">Click me!</button></p>
+<div id="result"></div>
+<p>Click the button to see the counter increase.</p>
+<p>Close the browser tab (or window), and try again, and the counter will continue to count (is not reset).</p>
 
-
-      imfor=id_value+"-"+pw_value+"-"+name_value+"-"+mail_value+"-"+num_value;
-      save_storage();
-   }
-
-   </script>
-   <div class=around>
-      <div class=button>
-         <center>
-            <form name="joinfrm" id="joinfrm" action="joinProc.do" method="post">
-               <table>
-                  <tr>
-                     <td>아이디</td>
-                     <td><input class="up_input" type="text" name="rg_id" id="rg_id" /></td>
-                  </tr>
-                  <tr>
-                     <td>비밀번호</td>
-                     <td><input class="up_input" type="password" name="rg_pw" id="rg_pw"/></td>
-                  </tr>
-                  <tr>
-                     <td>비밀번호 확인</td>
-                     <td><input class="up_input" type="password" name="rg_pw_chk" id="rg_pw_chk"/></td>
-                  </tr>
-                  <tr>
-                     <td>이름</td>
-                     <td><input class="up_input" type="text" name="rg_name" id="rg_name"/></td>
-                  </tr>
-                  <tr>
-                     <td>이메일</td>
-                     <td><input class="up_input" type="text" name="rg_mail" id="rg_mail"/></td>
-                  </tr>
-                  <tr>
-                     <td>전화번호</td>
-                     <td><input class="up_input" type="number" name="rg_num" id="rg_num"/></td>
-                  </tr>
-                  <tr>
-                     <td colspan="2"><input class="dn_input" type="button" value="회원가입하기" onclick="save()" ></input></td>
-                  </tr>
-               </table>
-            </form>
-         </center>
-      </div>
-   </div>
 </body>
 </html>
