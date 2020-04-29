@@ -1,26 +1,111 @@
-<html>
-<head>
-<script>
-function clickCounter() {
-  if (typeof(Storage) !== "undefined") {
-    if (localStorage.clickcount) {
-      localStorage.clickcount = Number(localStorage.clickcount)+1;
-    } else {
-      localStorage.clickcount = 1;
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+
+    <script type="text/javascript">
+
+      function budgetF(){
+        if ( isNaN(budget.value) == false ) // budget.value값이 숫자라면
+          {
+            alert("이번달 예산은" + budget.value + "입니다." );
+          }else {
+            var budgetInput =  prompt("type buget of this month", "only Number");
+            localStorage.budgetKey = budgetInput;
+
+            if (budgetInput == null || budgetInput == "" || isNaN(budgetInput) )
+            {alert("다시 입력 해주세요");}
+            else {
+              budget.value = budgetInput;                              // 최초 잔액 값을 표시
+              localStorage.balanceKey = budget.value;
+              balance.value = localStorage.balanceKey;
+
+            }
+          }
+        }
+
+      function use(self) {
+        if (isNaN(budget.value)){        //budget.value값이 숫자가 아니라면, 예산입력전일때
+          alert("예산을 먼저 입력 하세요");
+        } else {
+          var spend =  prompt("type how much", "only Number");  // 사용액을 입력받음
+          if ( spend == null || spend == "" || isNaN(spend) ){
+            alert("다시 입력 해주세요");                        // 제대로 입력 안했다면
+          } else {
+            balance.value = balance.value - spend;
+            localStorage['history'+ (localStorage.length-1) ] =
+            " 사용자 : " + self.value + "</br>"+" 사용액 : " + spend + "원</br>" + " 사용일시 : " + today + "</br>";
+          }
+        }
+        localStorage.balanceKey = balance.value;     // 최종 계산 후 잔고를 기억시킴(동기화)
+      }
+    </script>
+
+    <script type="text/javascript">
+    function history_list() {
+      var i = 1 ;
+      while ( i < (localStorage.length-1) ) {
+          document.write('history '+ i +"</br>"+ localStorage['history'+ i ]+"</br>");
+          i=i+1;
+      }
     }
-    document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
-  } else {
-    document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
-  }
-}
-</script>
-</head>
-<body>
+    </script>
+  </head>
 
-<p><button onclick="clickCounter()" type="button">Click me!</button></p>
-<div id="result"></div>
-<p>Click the button to see the counter increase.</p>
-<p>Close the browser tab (or window), and try again, and the counter will continue to count (is not reset).</p>
 
-</body>
+  <body>
+
+    <input id='temp' type='button' value="clear" onclick='localStorage.clear(); location.reload();'>
+
+    <h3>
+      <script type="text/javascript">
+        var calender = new Date();
+        document.write(calender.getMonth()+1+"월"+calender.getDate()+"일<br>");
+        var today = calender.getMonth()+1+"월"+calender.getDate()+"일  "
+                    +calender.getHours()+"시"+calender.getMinutes()+"분";
+      </script>
+    </h3>
+
+    <h3>
+
+    <p>
+    이번달 예산
+      <input id='budget' type='button' onclick="budgetF(this)">
+    </p>
+    <script type="text/javascript">
+    if ( isNaN(localStorage.budgetKey) ){                // localStorage.budgetKey 값이 숫자가 아니라면
+      budget.value = '금액을 입력하세요';
+    } else{
+      budget.value = localStorage.budgetKey;
+    }
+    </script>
+
+    <p>
+      잔액 <input id = 'balance' type='text' onclick="alert('사용자를 클릭해서 입력해 주세요')">
+    </p>
+    <script type="text/javascript">
+      if ( isNaN(localStorage.balanceKey)){
+        balance.value = '예산입력 후 표시'
+      } else {
+        balance.value = localStorage.balanceKey;
+      }
+    </script>
+    </h3>
+
+    <p>
+      <input id='name' type='button' value="ENG1" onclick="use(this)">
+    </p>
+
+    <p>
+      <input id='name' type='button' value="ENG2" onclick="use(this)">
+    </p>
+
+    <p>
+      <input type="button" value="히스토리" onclick="history_list()">
+    </p>
+
+  </body>
 </html>
